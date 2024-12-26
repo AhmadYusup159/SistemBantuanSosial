@@ -14,7 +14,9 @@ Route::prefix('api/reports')->group(function () {
     Route::get('/', [ReportController::class, 'index']);
     Route::patch('/{id}', [ReportController::class, 'updateStatus']);
     Route::delete('/{id}', [ReportController::class, 'destroy']);
-    Route::get('/show', [ReportController::class, 'show']);
+    Route::get('/show', [ReportController::class, 'show'])->name('show');
+    Route::get('/{id}/edit', [ReportController::class, 'edit'])->name('edit');
+    Route::patch('/{id}', [ReportController::class, 'update'])->name('update');
 });
 Route::get('/api/provinces', function () {
     $response = Http::get('https://wilayah.id/api/provinces.json');

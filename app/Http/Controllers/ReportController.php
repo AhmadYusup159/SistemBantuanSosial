@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Report;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ReportController extends Controller
 {
@@ -51,6 +52,47 @@ class ReportController extends Controller
         $report->update($validated);
 
         return response()->json(['message' => 'Report updated successfully.']);
+    }
+    public function edit($id)
+    {
+        $report = Report::findOrFail($id);
+
+        if ($report->status !== 'Pending') {
+            return redirect()->back()->with('error', 'Only pending reports can be edited.');
+        }
+
+        return view('edit', compact('report'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $report = Report::findOrFail($id);
+
+        if ($report->status !== 'Pending') {
+            return redirect()->back()->with('error', 'Only pending reports can be edited.');
+        }
+
+        $validated = $request->validate([
+            'program_name' => 'required|string',
+            'recipient_count' => 'required|integer',
+            'province' => 'required|string',
+            'district' => 'required|string',
+            'sub_district' => 'required|string',
+            'distribution_date' => 'required|date',
+            'evidence' => 'nullable|file|mimes:jpg,png,pdf|max:2048',
+            'notes' => 'nullable|string',
+        ]);
+
+        if ($request->hasFile('evidence')) {
+
+            Storage::delete($report->evidence_path);
+
+            $validated['evidence_path'] = $request->file('evidence')->store('evidences');
+        }
+
+        $report->update($validated);
+
+        return redirect()->route('show')->with('success', 'Report updated successfully.');
     }
 
     public function destroy($id)

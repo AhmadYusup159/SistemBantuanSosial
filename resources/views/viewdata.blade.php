@@ -1,6 +1,5 @@
 @include('template.header')
 
-
 <div class="container">
     <h1>Data Reports</h1>
     <table class="table table-bordered">
@@ -16,6 +15,7 @@
                 <th>Bukti</th>
                 <th>Catatan</th>
                 <th>Status</th>
+                <th>Aksi</th>
             </tr>
         </thead>
         <tbody>
@@ -33,11 +33,17 @@
                     </td>
                     <td>{{ $report->notes }}</td>
                     <td>{{ $report->status ?? 'Pending' }}</td>
+                    <td>
+                        @if ($report->status === 'Pending')
+                            <a href="{{ route('edit', $report->id) }}" class="btn btn-primary">Edit</a>
+                        @else
+                            <span class="text-muted">No Action</span>
+                        @endif
+                    </td>
                 </tr>
             @endforeach
         </tbody>
     </table>
 </div>
-
 
 @include('template.footer')
