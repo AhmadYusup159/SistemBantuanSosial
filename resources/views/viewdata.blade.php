@@ -36,6 +36,12 @@
                     <td>
                         @if ($report->status === 'Pending')
                             <a href="{{ route('edit', $report->id) }}" class="btn btn-primary">Edit</a>
+                            <form action="{{ route('destroy', $report->id) }}" method="POST" style="display:inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger"
+                                    onclick="return confirm('Are you sure you want to delete this report?');">Delete</button>
+                            </form>
                         @else
                             <span class="text-muted">No Action</span>
                         @endif
