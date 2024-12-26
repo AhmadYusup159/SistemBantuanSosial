@@ -34,7 +34,11 @@ class ReportController extends Controller
 
         return response()->json($report, 201);
     }
-
+    public function show()
+    {
+        $reports = Report::all();
+        return view('viewdata', ['reports' => $reports]);
+    }
     public function updateStatus(Request $request, $id)
     {
         $report = Report::findOrFail($id);
