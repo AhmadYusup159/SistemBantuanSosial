@@ -35,6 +35,11 @@ class ReportController extends Controller
 
         return response()->json($report, 201);
     }
+    public function input()
+    {
+        $reports = Report::all();
+        return view('input', ['reports' => $reports]);
+    }
     public function show()
     {
         $reports = Report::all();

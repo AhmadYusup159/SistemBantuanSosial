@@ -14,6 +14,7 @@ Route::prefix('api/reports')->group(function () {
     Route::get('/', [ReportController::class, 'index']);
     Route::patch('/{id}', [ReportController::class, 'updateStatus']);
     Route::delete('/{id}/destroy', [ReportController::class, 'destroy'])->name('destroy');
+    Route::get('/input', [ReportController::class, 'input'])->name('input');
     Route::get('/show', [ReportController::class, 'show'])->name('show');
     Route::get('/{id}/edit', [ReportController::class, 'edit'])->name('edit');
     Route::patch('/{id}', [ReportController::class, 'update'])->name('update');
