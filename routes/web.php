@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Http;
 
 Route::get('/', function () {
-    return view('index');
+    return view('registrasi');
 });
 
 use App\Http\Controllers\ReportController;
