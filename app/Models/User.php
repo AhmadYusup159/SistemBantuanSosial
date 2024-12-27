@@ -2,23 +2,25 @@
 
 namespace App\Models;
 
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
-class Report extends Model
+class User extends Authenticatable
 {
-    use HasFactory;
+    use HasFactory, Notifiable;
+
 
     protected $fillable = [
-        'program_name',
-        'recipient_count',
-        'province',
-        'district',
-        'sub_district',
-        'distribution_date',
-        'evidence_path',
-        'notes',
-        'status',
-        'rejection_reason',
+        'name',
+        'email',
+        'password',
+        'role_id'
+    ];
+
+    protected $hidden = [
+        'password',
+        'remember_token',
     ];
 }

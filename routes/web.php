@@ -8,6 +8,22 @@ Route::get('/', function () {
 });
 
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\LoginController;
+
+Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [LoginController::class, 'login']);
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+Route::get('/dashboard', function () {
+    return view('index');
+})->middleware('auth');
+Route::get('/admin/dashboard', function () {
+    return view('dashboard_admin');
+})->middleware('auth');
+
+Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
+Route::post('/register', [RegisterController::class, 'register']);
+
 
 Route::prefix('api/reports')->group(function () {
     Route::post('/', [ReportController::class, 'store']);
