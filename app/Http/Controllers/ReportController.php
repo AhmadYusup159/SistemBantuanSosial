@@ -12,9 +12,19 @@ class ReportController extends Controller
     {
         return response()->json(Report::all());
     }
+    public function dashboard()
+    {
+        return view('index');
+    }
 
     public function store(Request $request)
     {
+        $email = session('user_email');
+
+        if (!$email) {
+            return redirect()->route('login')->withErrors('You must be logged in to submit a report.');
+        }
+
         $validated = $request->validate([
             'program_name' => 'required|string',
             'recipient_count' => 'required|integer',
@@ -26,38 +36,73 @@ class ReportController extends Controller
             'notes' => 'nullable|string',
         ]);
 
-        $filePath = $request->file('evidence')->store('evidences');
+        $validated['email'] = $email;
 
-        $report = Report::create([
-            ...$validated,
-            'evidence_path' => $filePath,
-        ]);
+        $filePath = $request->file('evidence')->store('evidences', 'public');
 
-        return response()->json($report, 201);
+        $report = Report::create(array_merge($validated, ['evidence_path' => $filePath]));
+
+        return redirect()->route('reports.show');
     }
+
     public function input()
     {
         $reports = Report::all();
         return view('input', ['reports' => $reports]);
     }
-    public function show()
+    public function showadmin(Request $request)
     {
-        $reports = Report::all();
-        return view('viewdata', ['reports' => $reports]);
-    }
-    public function updateStatus(Request $request, $id)
-    {
-        $report = Report::findOrFail($id);
+        $query = Report::query();
 
-        $validated = $request->validate([
-            'status' => 'required|in:Approved,Rejected',
-            'rejection_reason' => 'required_if:status,Rejected|string',
+        if ($request->filled('filter_region')) {
+            $query->where('province', 'like', '%' . $request->filter_region . '%')
+                ->orWhere('district', 'like', '%' . $request->filter_region . '%')
+                ->orWhere('sub_district', 'like', '%' . $request->filter_region . '%');
+        }
+
+        if ($request->filled('filter_program')) {
+            $query->where('program_name', 'like', '%' . $request->filter_program . '%');
+        }
+
+        $reports = $query->orderBy('distribution_date', 'desc')->get();
+
+        return view('viewdata', [
+            'reports' => $reports,
+            'filter_region' => $request->filter_region,
+            'filter_program' => $request->filter_program,
         ]);
-
-        $report->update($validated);
-
-        return response()->json(['message' => 'Report updated successfully.']);
     }
+    public function show(Request $request)
+    {
+        $query = Report::query();
+
+        $email = session('user_email');
+        if ($email) {
+            $query->where('email', $email);
+        }
+
+        if ($request->filled('filter_region')) {
+            $query->where(function ($query) use ($request) {
+                $query->where('province', 'like', '%' . $request->filter_region . '%')
+                    ->orWhere('district', 'like', '%' . $request->filter_region . '%')
+                    ->orWhere('sub_district', 'like', '%' . $request->filter_region . '%');
+            });
+        }
+
+        if ($request->filled('filter_program')) {
+            $query->where('program_name', 'like', '%' . $request->filter_program . '%');
+        }
+
+        $reports = $query->orderBy('distribution_date', 'desc')->get();
+
+        return view('viewdata', [
+            'reports' => $reports,
+            'filter_region' => $request->filter_region,
+            'filter_program' => $request->filter_program,
+        ]);
+    }
+
+
     public function edit($id)
     {
         $report = Report::findOrFail($id);
@@ -88,17 +133,19 @@ class ReportController extends Controller
             'notes' => 'nullable|string',
         ]);
 
-        if ($request->hasFile('evidence')) {
+        $validated['email'] = session('user_email');
 
+        if ($request->hasFile('evidence')) {
             Storage::delete($report->evidence_path);
 
-            $validated['evidence_path'] = $request->file('evidence')->store('evidences');
+            $validated['evidence_path'] = $request->file('evidence')->store('evidences', 'public');
         }
 
         $report->update($validated);
 
-        return redirect()->route('show')->with('success', 'Report updated successfully.');
+        return redirect()->route('reports.show')->with('success', 'Report updated successfully.');
     }
+
 
     public function destroy($id)
     {
@@ -110,6 +157,6 @@ class ReportController extends Controller
 
         $report->delete();
 
-        return response()->json(['message' => 'Report deleted successfully.']);
+        return redirect()->route('reports.show')->with('success', 'Report deleted successfully.');
     }
 }

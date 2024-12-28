@@ -2,7 +2,7 @@
 <div class="bg-gradient-primary">
     <div class="container">
         <div class="container d-flex align-items-center justify-content-center h-100">
-            <div class="row justify-content-center">
+            <div class="justify-content-center">
                 <div class="col-xl-10 col-lg-12 col-md-9">
                     <div class="card o-hidden border-0 shadow-lg my-5"
                         style="width: 500px; height: 500px;  background-color: rgba(255, 255, 255, 0.8);">

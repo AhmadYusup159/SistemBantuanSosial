@@ -62,7 +62,7 @@
             navbar.classList.remove("hidden");
         }
 
-        lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; // Untuk menghindari nilai negatif
+        lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
     });
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"

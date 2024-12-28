@@ -25,8 +25,9 @@ class LoginController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
-
             $user = Auth::user();
+            $request->session()->put('user_email', $user->email);
+
             if ($user->role_id === 1) {
                 return redirect()->intended('/admin/dashboard');
             } elseif ($user->role_id === 2) {
@@ -38,6 +39,7 @@ class LoginController extends Controller
             'email' => 'Email atau password salah.',
         ])->onlyInput('email');
     }
+
 
 
 

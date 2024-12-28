@@ -2,11 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Http;
-
-Route::get('/', function () {
-    return view('registrasi');
-});
-
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
@@ -14,26 +10,24 @@ use App\Http\Controllers\Auth\LoginController;
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
 Route::get('/dashboard', function () {
     return view('index');
-})->middleware('auth');
-Route::get('/admin/dashboard', function () {
-    return view('dashboard_admin');
-})->middleware('auth');
+})->name('user.dashboard')->middleware('auth');
+
+Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard')->middleware('auth');
 
 Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
 Route::post('/register', [RegisterController::class, 'register']);
 
-
-Route::prefix('api/reports')->group(function () {
-    Route::post('/', [ReportController::class, 'store']);
-    Route::get('/', [ReportController::class, 'index']);
-    Route::patch('/{id}', [ReportController::class, 'updateStatus']);
-    Route::delete('/{id}/destroy', [ReportController::class, 'destroy'])->name('destroy');
-    Route::get('/input', [ReportController::class, 'input'])->name('input');
-    Route::get('/show', [ReportController::class, 'show'])->name('show');
-    Route::get('/{id}/edit', [ReportController::class, 'edit'])->name('edit');
-    Route::patch('/{id}', [ReportController::class, 'update'])->name('update');
+Route::prefix('reports')->middleware('auth')->group(function () {
+    Route::get('/dashboard', [ReportController::class, 'dashboard'])->name('reports.dashboard');
+    Route::get('/input', [ReportController::class, 'input'])->name('reports.input');
+    Route::get('/show', [ReportController::class, 'show'])->name('reports.show');
+    Route::post('/', [ReportController::class, 'store'])->name('reports.store');
+    Route::get('/{id}/edit', [ReportController::class, 'edit'])->name('reports.edit');
+    Route::patch('/{id}', [ReportController::class, 'update'])->name('reports.update');
+    Route::delete('/{id}/destroy', [ReportController::class, 'destroy'])->name('reports.destroy');
 });
 Route::get('/api/provinces', function () {
     $response = Http::get('https://wilayah.id/api/provinces.json');

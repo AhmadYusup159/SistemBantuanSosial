@@ -23,16 +23,22 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link text-white dropdown-toggle" href="#" id="navbarDropdown" role="button"
                         data-bs-toggle="dropdown" aria-expanded="false">
-                        Berita
+                        Laporan
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="{{ route('input') }}">Input Berita</a></li>
-                        <li><a class="dropdown-item" href="{{ route('show') }}">Tampilkan Berita</a></li>
+                        <li><a class="dropdown-item" href="{{ route('reports.input') }}">Input Laporan</a></li>
+                        <li><a class="dropdown-item" href="{{ route('reports.show') }}">Tampilkan Laporan</a></li>
                     </ul>
                 </li>
 
                 <li class="nav-item">
                     <a class="nav-link text-white" href="#contact">Kontak</a>
+                </li>
+                <li class="nav-item">
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-inline">
+                        @csrf
+                        <button type="submit" class="btn btn-danger nav-link text-white border-0">Logout</button>
+                    </form>
                 </li>
             </ul>
         </div>

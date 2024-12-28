@@ -66,6 +66,17 @@
             align-items: center;
             justify-content: center;
         }
+
+        .bg-image-wrapper {
+            background-image: url('{{ asset('storage/assets/prambanan.jpg') }}');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
     </style>
 
 

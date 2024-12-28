@@ -20,5 +20,6 @@ class Report extends Model
         'notes',
         'status',
         'rejection_reason',
+        'email'
     ];
 }
