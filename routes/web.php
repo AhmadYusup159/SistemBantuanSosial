@@ -16,6 +16,10 @@ Route::get('/dashboard', function () {
 })->name('user.dashboard')->middleware('auth');
 
 Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard')->middleware('auth');
+Route::get('/admin/statistikpelaporan', [AdminController::class, 'statistikpelaporan'])->name('admin.statistikpelaporan')->middleware('auth');
+Route::get('/admin/statistikpenyaluran', [AdminController::class, 'statistikpenyaluran'])->name('admin.statistikpenyaluran')->middleware('auth');
+Route::get('/admin/statistikpenerima', [AdminController::class, 'statistikpenerima'])->name('admin.statistikpenerima')->middleware('auth');
+Route::patch('/reports/{id}/status', [AdminController::class, 'updateStatus'])->name('reports.updateStatus')->middleware('auth');
 
 Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
 Route::post('/register', [RegisterController::class, 'register']);

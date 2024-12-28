@@ -2,10 +2,10 @@
 <div class="bg-gradient-primary">
     <div class="container">
         <div class="container d-flex align-items-center justify-content-center h-100">
-            <div class=" justify-content-center">
+            <div class="justify-content-center">
                 <div class="col-xl-10 col-lg-12 col-md-9">
                     <div class="card o-hidden border-0 shadow-lg my-5"
-                        style="width: 500px; height: 400px; background-color: rgba(255, 255, 255, 0.8);">
+                        style="width: 500px; height: auto; background-color: rgba(255, 255, 255, 0.8);">
                         <div class="card-body p-0">
                             <div class="p-5">
                                 <div class="text-center">
@@ -31,8 +31,12 @@
                                             placeholder="Password">
                                     </div>
                                     <br>
-                                    <button type="submit" class="btn btn-primary btn-block justify-content-center">Log
-                                        in</button>
+                                    <div class="d-grid gap-2">
+                                        <button type="submit"
+                                            class="btn btn-primary btn-block justify-content-center">Log
+                                            in</button>
+                                    </div>
+
                                 </form>
 
                                 <hr>
@@ -42,9 +46,7 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
-
             </div>
         </div>
     </div>

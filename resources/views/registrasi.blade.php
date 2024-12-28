@@ -55,9 +55,12 @@
                                         @enderror
                                     </div>
 
-                                    <button type="submit" class=" mt-3 btn btn-primary btn-user btn-block">
-                                        Daftar
-                                    </button>
+
+                                    <div class="d-grid gap-2">
+                                        <button type="submit" class=" mt-3 btn btn-primary btn-user btn-block">
+                                            Daftar
+                                        </button>
+                                    </div>
                                 </form>
                                 <hr>
                                 <div class="text-center">
