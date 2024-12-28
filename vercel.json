@@ -1,6 +1,12 @@
 {
     "version": 2,
     "framework": null,
+    "builds": [
+        {
+          "src": "Dockerfile",
+          "use": "@vercel/docker"
+        }
+      ],
     "functions": {
         "api/index.php": { "runtime": "vercel-php@0.6.0" }
     },
@@ -30,5 +36,5 @@
         "DB_PORT": "3306",
         "DB_DATABASE": "db2024_stormtorn",
         "DB_USERNAME": "db2024_stormtorn"
-    }
+    } 
 }
