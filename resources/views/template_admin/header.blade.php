@@ -102,9 +102,13 @@
 
 <body>
     <header class="bg-primary text-white py-3">
-        <div class="container d-flex justify-content-between">
+        <div class="container d-flex justify-content-between align-items-center">
             <h1 class="h3">Portal Admin</h1>
-            <button class="btn btn-danger logout-btn"
-                onclick="window.location.href='{{ route('logout') }}';">Logout</button>
+            <nav>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-inline">
+                    @csrf
+                    <button type="submit" class="btn btn-danger">Logout</button>
+                </form>
+            </nav>
         </div>
     </header>

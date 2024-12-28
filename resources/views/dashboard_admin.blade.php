@@ -1,5 +1,5 @@
 @include('template_admin.header')
-@include('template_Admin.sidebar')
+@include('template_admin.sidebar')
 
 <main class="col-md-9 col-lg-10 content py-4 d-flex flex-column">
     <div class="container flex-grow-1">
